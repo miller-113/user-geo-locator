@@ -8,10 +8,10 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     // Установка интервала при монтировании компонента
-    const updateInterval = setInterval(updateUserGeo, 3000);
-
-    // Загрузка пользователей при монтировании компонента
-    loadUsers();
+    const updateInterval = setInterval(() => {
+      updateUserGeo();
+      loadUsers();
+    }, 3000);
 
     // Очистка интервала при размонтировании компонента
     return () => {
