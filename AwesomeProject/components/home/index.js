@@ -1,48 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
-// Пример данных пользователей
-const url = 'http://localhost:1337/api/users';
-// TODO get users
-// example structure [
-//   {
-//     "id": 1,
-//     "username": "miller",
-//     "email": "miller@mail.ru",
-//     "provider": "local",
-//     "confirmed": true,
-//     "blocked": false,
-//     "createdAt": "2024-03-02T11:48:06.329Z",
-//     "updatedAt": "2024-03-02T11:48:06.329Z",
-//     "latitude": null,
-//     "longitude": null
-//   }
-// ]
-const usersData = [
-  { id: 1, name: 'User 1', latitude: 40.7128, longitude: -74.006 },
-  { id: 2, name: 'User 2', latitude: 34.0522, longitude: -118.2437 },
-  { id: 3, name: 'User 3', latitude: 51.5074, longitude: -0.1278 },
-  // Добавьте больше пользователей по мере необходимости
-];
+import axios from 'axios';
 
 const Home = ({ navigation }) => {
-  // Состояние для хранения списка пользователей
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // Загрузка пользователей при монтировании компонента
-    setUsers(usersData);
+    loadUsers();
   }, []);
 
-  // Функция для навигации к карте при выборе пользователя
+  const loadUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:1337/api/users');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error loading users:', error);
+      // Handle error loading users
+    }
+  };
+
   const handleUserPress = (user) => {
     navigation.navigate('Map', { user });
   };
 
-  // Рендеринг элемента списка пользователей
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleUserPress(item)} style={styles.userItem}>
-      <Text>{item.name}</Text>
+      <Text>{JSON.stringify(item)}</Text>
     </TouchableOpacity>
   );
 
