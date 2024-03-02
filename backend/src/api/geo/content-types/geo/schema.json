@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geos",
+  "info": {
+    "singularName": "geo",
+    "pluralName": "geos",
+    "displayName": "geo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "latitude": {
+      "type": "string"
+    },
+    "longitude": {
+      "type": "string"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "geos"
+    }
+  }
+}
