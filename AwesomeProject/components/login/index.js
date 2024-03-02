@@ -24,6 +24,8 @@ const Login = ({ navigation }) => {
     } catch (error) {
         console.log("ERROR", error);
     }
+    console.log('email', email)
+    console.log('password', password)
   };
 
   const handleRegistration = () => {

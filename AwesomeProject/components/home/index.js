@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
-
-import { getToken, decodeToken, updateUserGeo, getCurrentLocation} from '../../helpers';
+import { updateUserGeo } from '../../helpers';
 
 const Home = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+    // Установка интервала при монтировании компонента
+    const updateInterval = setInterval(updateUserGeo, 3000);
+
+    // Загрузка пользователей при монтировании компонента
     loadUsers();
+
+    // Очистка интервала при размонтировании компонента
+    return () => {
+      clearInterval(updateInterval);
+    };
   }, []);
 
   const loadUsers = async () => {

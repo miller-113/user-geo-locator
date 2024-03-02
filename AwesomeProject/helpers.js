@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {jwtDecode} from 'jwt-decode';
+import "core-js/stable/atob";
 import axios from 'axios';
 import * as Location from 'expo-location';
 
@@ -28,17 +30,20 @@ export const decodeToken = (token) => {
 };
 
 export const updateUserGeo = async () => {
+  console.log('start upd')
   const token = await getToken();
   if (!token) {
     return
   }
   const userId = decodeToken(token).id
+  console.log('userId=', userId)
   const url = `http://localhost:1337/api/users/${userId}`
   const {coords} = await getCurrentLocation();
   const data = {
-    "latitude": coords.latitude,
-    "longitude": coords.longitude
+    "latitude": coords.latitude.toString(),
+    "longitude": coords.longitude.toString()
   }
+
   await axios.put(url, data);
 }
 
