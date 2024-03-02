@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 
+import { getToken, decodeToken, updateUserGeo, getCurrentLocation} from '../../helpers';
+
 const Home = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Загрузка пользователей при монтировании компонента
     loadUsers();
   }, []);
 
@@ -16,7 +17,6 @@ const Home = ({ navigation }) => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error loading users:', error);
-      // Handle error loading users
     }
   };
 
