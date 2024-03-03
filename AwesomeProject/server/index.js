@@ -31,23 +31,20 @@ socketIO.on('connection', (socket) => {
     };
 
     sendUsers();
-    let updGeoInterval = undefined;
+
     socket.on('updateUserGeo', async (userData) => {
-        updGeoInterval = setInterval(async () => {
-            try {
-                await axios.put(
-                    `${strapiServer}/api/users/${userData.id}`,
-                    userData
-                    );
-                    console.log('usrdata upd')
-            } catch (error) {
-                console.log('Error updating user geodata:', error);
-            }
-        }, 3000)
+        try {
+            await axios.put(
+                `${strapiServer}/api/users/${userData.id}`,
+                userData
+                );
+                console.log('usrdata upd')
+        } catch (error) {
+            console.log('Error updating user geodata:', error);
+        }
     });
 
     socket.on('disconnect', () => {
-        clearInterval(updGeoInterval)
         console.log('🔥: A user disconnected');
     });
 

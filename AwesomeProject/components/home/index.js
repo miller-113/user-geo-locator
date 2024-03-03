@@ -11,11 +11,15 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     const socket = io('http://localhost:4000');
 
+    const updGeoInterval = setInterval(async () => {
+        // the same as socket.emit('updateUserGeo', userData); 👇
+        updateUserGeo(socket);
+    }, 3000)
+
     socket.on('users', (data) => {
         setUsers(data);
     });
-    // // socket.emit('updateUserGeo', userData); 👇
-    updateUserGeo(socket);
+
 
 
     return () => {
