@@ -29,22 +29,22 @@ export const decodeToken = (token) => {
   }
 };
 
-export const updateUserGeo = async () => {
+export const updateUserGeo = async (socket) => {
   console.log('start upd')
   const token = await getToken();
   if (!token) {
     return
   }
   const userId = decodeToken(token).id
-  console.log('userId=', userId)
+  // console.log('userId=', userId)
   const url = `http://localhost:1337/api/users/${userId}`
   const {coords} = await getCurrentLocation();
-  const data = {
+  const userData = {
+    id: userId,
     "latitude": coords.latitude.toString(),
     "longitude": coords.longitude.toString()
   }
-
-  await axios.put(url, data);
+  socket.emit('updateUserGeo', userData);
 }
 
 export const getCurrentLocation = async () => {

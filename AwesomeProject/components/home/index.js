@@ -2,30 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { updateUserGeo } from '../../helpers';
+import io from 'socket.io-client';
+
 
 const Home = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const updateInterval = setInterval(() => {
-      updateUserGeo();
-      loadUsers();
-    }, 3000);
-    loadUsers();
+    const socket = io('http://localhost:4000');
+
+    socket.on('users', (data) => {
+        setUsers(data);
+    });
+    // // socket.emit('updateUserGeo', userData); 👇
+    updateUserGeo(socket);
+
 
     return () => {
-      clearInterval(updateInterval);
+      socket.disconnect()
     };
   }, []);
 
-  const loadUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:1337/api/users');
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error loading users:', error);
-    }
-  };
+
 
   const handleUserPress = (user) => {
     navigation.navigate('Map', { user });
