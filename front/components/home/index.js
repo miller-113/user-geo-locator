@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import axios from 'axios';
 import { updateUserGeo } from '../../helpers';
 import io from 'socket.io-client';
-
 
 const Home = ({ navigation }) => {
   const [users, setUsers] = useState([]);
@@ -20,14 +18,11 @@ const Home = ({ navigation }) => {
         setUsers(data);
     });
 
-
-
     return () => {
       socket.disconnect()
+      clearInterval(updGeoInterval);
     };
   }, []);
-
-
 
   const handleUserPress = (user) => {
     navigation.navigate('Map', { user });

@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import axios from 'axios';
 
 const MapScreen = ({ route }) => {
-  const [userLocation, setUserLocation] = useState(route.params.user);
+  const [userLocation, setUserLocation] = useState([]);
 
   useEffect(() => {
-    const updateInterval = setInterval(() => {
-      loadUserLocation(route.params.user.id);
-    }, 3000);
+    const socket = io('http://localhost:4000');
+
+    const updGeoInterval = setInterval(async () => {
+        setUserLocation(updateUserGeo(socket));
+    }, 3000)
 
     return () => {
-      clearInterval(updateInterval);
+      clearInterval(updGeoInterval);
+      socket.disconnect()
     };
   }, []);
-
-  const loadUserLocation = async (userId) => {
-    try {
-      const response = await axios.get(`http://localhost:1337/api/users/${userId}`);
-      setUserLocation(response.data);
-    } catch (error) {
-      console.error('Error loading user location:', error);
-    }
-  };
 
   return (
     <View style={styles.container}>

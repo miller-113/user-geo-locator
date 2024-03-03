@@ -20,7 +20,6 @@ const strapiServer = 'http://localhost:1337';
 socketIO.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
 
-    // Функция для отправки пользователей через сокет
     const sendUsers = async () => {
         try {
             const response = await axios.get(`${strapiServer}/api/users`);
@@ -38,7 +37,6 @@ socketIO.on('connection', (socket) => {
                 `${strapiServer}/api/users/${userData.id}`,
                 userData
                 );
-                console.log('usrdata upd')
         } catch (error) {
             console.log('Error updating user geodata:', error);
         }
