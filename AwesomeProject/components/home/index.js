@@ -7,13 +7,12 @@ const Home = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Установка интервала при монтировании компонента
     const updateInterval = setInterval(() => {
       updateUserGeo();
       loadUsers();
     }, 3000);
+    loadUsers();
 
-    // Очистка интервала при размонтировании компонента
     return () => {
       clearInterval(updateInterval);
     };

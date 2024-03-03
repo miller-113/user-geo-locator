@@ -30,16 +30,16 @@ const MapScreen = ({ route }) => {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: parseFloat(userLocation.latitude),
-          longitude: parseFloat(userLocation.longitude),
+          latitude: userLocation.latitude ? parseFloat(userLocation.latitude) : "37.33676622",
+          longitude: userLocation.longitude ? parseFloat(userLocation.longitude) : "-122.04160728",
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       >
         <Marker
           coordinate={{
-            latitude: parseFloat(userLocation.latitude),
-            longitude: parseFloat(userLocation.longitude),
+            latitude: userLocation.latitude ? parseFloat(userLocation.latitude) : "37.33676622",
+            longitude: userLocation.longitude ? parseFloat(userLocation.longitude) : "-122.04160728",
           }}
           title={userLocation.name}
         />
