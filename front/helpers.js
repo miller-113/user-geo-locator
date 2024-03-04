@@ -41,6 +41,7 @@ export const updateUserGeo = async (socket) => {
     "longitude": coords.longitude.toString()
   }
   socket.emit('updateUserGeo', userData);
+
   return userData;
 }
 

@@ -30,7 +30,7 @@ const Home = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleUserPress(item)} style={styles.userItem}>
-      <Text>{JSON.stringify(item)}</Text>
+      <Text>{item.username}</Text>
     </TouchableOpacity>
   );
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { updateUserGeo } from '../../helpers';
+import io from 'socket.io-client';
 
 const MapScreen = ({ route }) => {
   const [userLocation, setUserLocation] = useState([]);
@@ -9,7 +11,13 @@ const MapScreen = ({ route }) => {
     const socket = io('http://localhost:4000');
 
     const updGeoInterval = setInterval(async () => {
-        setUserLocation(updateUserGeo(socket));
+      socket.emit('getUser', route.params.user.id);
+
+
+      socket.on('getUser', (userData) => {
+        setUserLocation(userData);
+      });
+      await updateUserGeo(socket);
     }, 3000)
 
     return () => {

@@ -41,6 +41,16 @@ socketIO.on('connection', (socket) => {
             console.log('Error updating user geodata:', error);
         }
     });
+    socket.on('getUser', async (userId) => {
+        try {
+            const response = await axios.get(
+                `${strapiServer}/api/users/${userId}`
+            );
+            socket.emit('getUser', response.data); // Отправляем данные пользователя обратно клиенту
+        } catch (error) {
+            console.log('Error fetching user data:', error);
+        }
+    });
 
     socket.on('disconnect', () => {
         console.log('🔥: A user disconnected');
